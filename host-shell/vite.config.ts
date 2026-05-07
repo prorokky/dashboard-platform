@@ -1,5 +1,3 @@
-import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -15,7 +13,7 @@ export default defineConfig({
       name: "host-app",
       filename: "remoteEntry.js",
       exposes: {
-        "./Navbar": "./src/components/layouts/Navbar.vue",
+        "./Navbar": "./src/widgets/Navbar.vue",
       },
       remotes: {
         dashboard: "http://localhost:8001/remoteEntry.js",
@@ -23,11 +21,6 @@ export default defineConfig({
       shared: ["vue", "vue-router", "pinia"],
     }),
   ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    },
-  },
   build: {
     target: "esnext",
     minify: true,
