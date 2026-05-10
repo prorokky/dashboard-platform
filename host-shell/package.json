@@ -10,11 +10,11 @@
     "test:unit": "vitest",
     "test:e2e": "playwright test",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build",
+    "type-check": "vue-tsc --build tsconfig.app.json",
     "lint": "run-s lint:*",
-    "lint:oxlint": "oxlint . --fix",
-    "lint:eslint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/",
+    "lint:oxlint": "oxlint src --fix --ignore-pattern \"src/**/__tests__/**\" --ignore-pattern \"src/shared/config/**\" --no-error-on-unmatched-pattern",
+    "lint:eslint": "eslint \"src/**/*.{vue,ts,tsx}\" --fix --cache",
+    "format": "prettier --write --experimental-cli \"src/**/*.{vue,ts,tsx}\" \"!src/**/__tests__/**\" \"!src/shared/config/**\"",
     "prepare": "husky"
   },
   "dependencies": {

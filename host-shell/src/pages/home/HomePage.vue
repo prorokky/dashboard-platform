@@ -70,15 +70,15 @@ const STACK = ['Vue', 'TypeScript', 'Module Federation', 'Vite']
     color: #CBD5E1;
   }
 
-  .stack-card__item::after {
-    content: "·";
-    margin: 0 12px;
-  }
+.stack-card__item::after {
+  content: '·';
+  margin: 0 12px;
+}
 
-  .stack-card__item:last-child::after {
-    content: "";
-    margin: 0;
-  }
+.stack-card__item:last-child::after {
+  content: '';
+  margin: 0;
+}
 
   .modules-list {
     margin-top: 64px;
