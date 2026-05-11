@@ -1,22 +1,28 @@
 <script setup lang="ts">
-import HomePage from "../pages/home/HomePage.vue";
+import ErrorBoundary from '../pages/errorBoundary/ErrorBoundary.vue'
 </script>
 
 <template>
-  <RouterView />
+  <ErrorBoundary>
+    <RouterView />
+  </ErrorBoundary>
 </template>
 
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
 
-  p {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
-  }
+h1 {
+  font-family: 'Inter', sans-serif;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
 </style>

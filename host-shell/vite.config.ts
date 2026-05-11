@@ -10,23 +10,25 @@ export default defineConfig({
     vueJsx(),
     vueDevTools(),
     federation({
-      name: "host-app",
-      filename: "remoteEntry.js",
-      exposes: {
-        "./Navbar": "./src/widgets/Navbar.vue",
-      },
+      name: 'host-app',
       remotes: {
-        dashboard: "http://localhost:8001/remoteEntry.js",
+        dashboard: 'http://localhost:8001/assets/remoteEntry.js',
       },
-      shared: ["vue", "vue-router", "pinia"],
+      shared: ['vue', 'vue-router'],
     }),
   ],
   build: {
-    target: "esnext",
+    target: 'esnext',
     minify: true,
     cssCodeSplit: true,
   },
   server: {
+    host: '127.0.0.1',
     port: 8000,
+  },
+  preview: {
+    host: '127.0.0.1',
+    port: 8000,
+    strictPort: true,
   },
 })
