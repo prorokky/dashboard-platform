@@ -11,6 +11,9 @@ export default defineConfig({
     vueDevTools(),
     federation({
       name: 'host-app',
+      exposes: {
+        './NavBar': './src/widgets/NavBar.vue',
+      },
       remotes: {
         dashboard: 'http://localhost:8001/assets/remoteEntry.js',
       },
