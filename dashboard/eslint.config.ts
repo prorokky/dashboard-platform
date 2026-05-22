@@ -72,6 +72,17 @@ export default defineConfigWithVueTs(
       'vue/order-in-components': 'error',
       'vue/prop-name-casing': ['error', 'camelCase'],
       'vue/quote-props': ['error', 'as-needed'],
+      'vue/sort-keys': [
+        'error',
+        'asc',
+        {
+          caseSensitive: true,
+          ignoreChildrenOf: ['model'],
+          ignoreGrandchildrenOf: ['computed', 'directives', 'inject', 'props', 'watch'],
+          minKeys: 2,
+          natural: false,
+        },
+      ],
     },
   },
 
