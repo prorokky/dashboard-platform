@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onErrorCaptured, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const hasError = ref(false)
 
 onErrorCaptured((error) => {
@@ -9,7 +11,8 @@ onErrorCaptured((error) => {
   return false
 })
 
-const deleteError = () => {
+const navigateHome = async () => {
+  await router.push('/')
   hasError.value = false
 }
 </script>
@@ -17,11 +20,11 @@ const deleteError = () => {
 <template>
   <main v-if="hasError" class="error-page">
     <section class="error-page__card">
-      <h1 class="error-page__title">Что-то пошло не так</h1>
+      <h1 class="error-page__title">Oops, something went wrong</h1>
 
-      <p class="error-page__text">Мы обязательно разберёмся</p>
+      <p class="error-page__text">We will definitely sort this out.</p>
 
-      <RouterLink class="error-page__button" to="/" @click="deleteError()"> Домой </RouterLink>
+      <button class="error-page__button" type="button" @click="navigateHome">Home</button>
     </section>
   </main>
 
