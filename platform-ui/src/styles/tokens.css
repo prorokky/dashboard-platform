@@ -1,0 +1,53 @@
+:root {
+  --ui-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --ui-color-bg-canvas: #0b1020;
+  --ui-color-bg-surface: #111a2f;
+  --ui-color-bg-elevated: #1e293b;
+  --ui-color-bg-muted: #334155;
+
+  --ui-color-text-primary: #f8fafc;
+  --ui-color-text-secondary: #cbd5e1;
+  --ui-color-text-muted: #94a3b8;
+
+  --ui-color-brand-500: #6366f1;
+  --ui-color-brand-600: #4f46e5;
+  --ui-color-brand-700: #4338ca;
+
+  --ui-color-border-default: #475569;
+  --ui-color-border-strong: #64748b;
+
+  --ui-color-danger-500: #ef4444;
+  --ui-color-danger-600: #dc2626;
+
+  --ui-color-focus-ring: rgb(99 102 241 / 40%);
+
+  --ui-radius-xs: 8px;
+  --ui-radius-sm: 12px;
+  --ui-radius-md: 16px;
+  --ui-radius-lg: 24px;
+
+  --ui-space-1: 4px;
+  --ui-space-2: 8px;
+  --ui-space-3: 12px;
+  --ui-space-4: 16px;
+  --ui-space-5: 20px;
+  --ui-space-6: 24px;
+  --ui-space-8: 32px;
+
+  --ui-font-size-xs: 12px;
+  --ui-font-size-sm: 14px;
+  --ui-font-size-md: 16px;
+  --ui-font-size-lg: 18px;
+  --ui-font-size-xl: 20px;
+  --ui-font-size-2xl: 28px;
+  --ui-font-size-5xl: 72px;
+
+  --ui-line-height-tight: 1.15;
+  --ui-line-height-normal: 1.4;
+  --ui-line-height-relaxed: 1.6;
+
+  --ui-shadow-focus: 0 0 0 3px var(--ui-color-focus-ring);
+
+  --ui-transition-fast: 120ms ease;
+}
