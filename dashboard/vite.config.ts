@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import federation from '@originjs/vite-plugin-federation'
+import { fileURLToPath, URL } from 'node:url'
 
 const fixFederationCssMarkers = (): Plugin => ({
   name: 'fix-federation-css-markers',
@@ -36,6 +37,9 @@ export default defineConfig({
   },
   server: {
     host: '127.0.0.1',
+    fs: {
+      allow: [fileURLToPath(new URL('..', import.meta.url))],
+    },
     cors: {
       origin: [/^http:\/\/(localhost|127\.0\.0\.1):8000$/],
     },

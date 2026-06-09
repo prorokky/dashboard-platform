@@ -13,29 +13,14 @@ import NavBar from '../widgets/NavBar.vue'
 </template>
 
 <style>
-body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  height: 100vh;
-}
-
-h1 {
-  font-family: 'Inter', sans-serif;
-}
-
-p {
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', sans-serif;
-}
-
 .app-layout {
   min-height: 100vh;
   display: flex;
+  background: var(--ui-color-bg-canvas);
 }
 
 .app-layout > :last-child {
   flex: 1;
+  min-width: 0;
 }
 </style>

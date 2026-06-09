@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import federation from '@originjs/vite-plugin-federation'
+import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
   plugins: [
@@ -28,6 +29,9 @@ export default defineConfig({
   server: {
     host: '127.0.0.1',
     port: 8000,
+    fs: {
+      allow: [fileURLToPath(new URL('..', import.meta.url))],
+    },
   },
   preview: {
     host: '127.0.0.1',

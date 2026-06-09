@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onErrorCaptured, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { UiButton, UiCard } from 'platform-ui'
 
 const router = useRouter()
 const hasError = ref(false)
@@ -19,13 +20,15 @@ const navigateHome = async () => {
 
 <template>
   <main v-if="hasError" class="error-page">
-    <section class="error-page__card">
+    <UiCard class="error-page__card" variant="surface">
       <h1 class="error-page__title">Oops, something went wrong</h1>
 
       <p class="error-page__text">We will definitely sort this out.</p>
 
-      <button class="error-page__button" type="button" @click="navigateHome">Home</button>
-    </section>
+      <UiButton class="error-page__button" size="md" type="button" variant="secondary" @click="navigateHome">
+        Home
+      </UiButton>
+    </UiCard>
   </main>
 
   <slot v-else />
@@ -38,7 +41,8 @@ const navigateHome = async () => {
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  background-color: #0b1020;
+  background: var(--ui-color-bg-canvas);
+  padding: var(--ui-space-4);
 }
 
 .error-page__card {
@@ -47,45 +51,29 @@ const navigateHome = async () => {
   align-items: center;
   width: 100%;
   max-width: 420px;
-  padding: 40px 32px;
   border-radius: 28px;
-  background: rgb(255 255 255 / 88%);
+  background: rgb(248 250 252 / 94%);
   text-align: center;
+  gap: var(--ui-space-3);
 }
 
 .error-page__title {
-  margin: 0;
   color: #0f172a;
-  font-size: 28px;
+  font-size: var(--ui-font-size-2xl);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: var(--ui-line-height-tight);
   letter-spacing: -0.02em;
 }
 
 .error-page__text {
   max-width: 320px;
-  margin: 12px 0 0;
   color: #64748b;
-  font-size: 16px;
+  font-size: var(--ui-font-size-md);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: var(--ui-line-height-relaxed);
 }
 
 .error-page__button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 0 22px;
-  margin-top: 28px;
-  border-radius: 14px;
-  color: #818cf8;
-  background-color: #1e293b;
-  border: 1px solid #475569;
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  line-height: 1;
-  text-decoration: none;
+  margin-top: var(--ui-space-4);
 }
 </style>

@@ -18,6 +18,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "platform-ui": "file:../platform-ui",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },

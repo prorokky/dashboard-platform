@@ -7,6 +7,10 @@
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": false,
     "types": ["vite/client"],
+    "paths": {
+      "vue": ["./node_modules/vue"],
+      "vue/*": ["./node_modules/vue/*"]
+    },
 
     // `vue-tsc --build` produces a .tsbuildinfo file for incremental type-checking.
     // Specified here to keep it out of the root directory.

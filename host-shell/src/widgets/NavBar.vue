@@ -1,42 +1,41 @@
 <script setup lang="ts">
 import { remoteApps } from '../shared/remotes/remoteApps.ts'
+import { useRoute } from 'vue-router'
+import { UiButton } from 'platform-ui'
 
-const currentURL = window.location.href
-const path = currentURL.split('/').reverse()[0]
+const route = useRoute()
 </script>
 
 <template>
   <nav class="container">
-    <RouterLink v-for="item in remoteApps" :key="item.id" custom :to="item.path">
-      <p :class="['element', `/${path}` === item.path ? 'element__active' : '']">
+    <RouterLink v-for="item in remoteApps" :key="item.id" v-slot="{ navigate }" custom :to="item.path">
+      <UiButton
+        class="element"
+        full-width
+        size="md"
+        :variant="route.path === item.path ? 'primary' : 'ghost'"
+        @click="navigate"
+      >
         {{ item.title }}
-      </p>
+      </UiButton>
     </RouterLink>
   </nav>
 </template>
 
 <style scoped>
 .container {
-  padding: 24px 16px;
+  padding: var(--ui-space-6) var(--ui-space-4);
   background-color: #0f172a;
   width: 236px;
   min-height: 100vh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--ui-space-2);
 }
 
 .element {
-  padding: 10px 24px;
-  text-decoration: none;
-  border-radius: 8px;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.element__active {
-  background-color: #4f46e6;
+  justify-content: flex-start;
+  font-weight: 700;
 }
 </style>

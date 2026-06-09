@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles/index.css": "./src/styles/index.css"
+  },
   "scripts": {
     "test:e2e": "playwright test",
     "build-only": "vite build",
