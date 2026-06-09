@@ -10,21 +10,21 @@ const remoteComponents = {
 }
 
 const remoteRoutes = remoteApps.map((app) => ({
-  path: app.path,
-  name: app.id,
   component: remoteComponents[app.id as keyof typeof remoteComponents],
   meta: {
     showHostNavbar: app.showHostNavbar ?? true,
   },
+  name: app.id,
+  path: app.path,
 }))
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
       component: HomePage,
+      name: 'home',
+      path: '/',
     },
     ...remoteRoutes,
     {

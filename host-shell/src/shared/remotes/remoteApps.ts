@@ -9,9 +9,9 @@ export type RemoteApp = {
 export const remoteApps: RemoteApp[] = [
   {
     id: 'dashboard',
-    title: 'Dashboard',
     path: '/dashboard',
     remoteEntry: 'http://localhost:8001/assets/remoteEntry.js',
     showHostNavbar: true,
+    title: 'Dashboard',
   },
 ]
