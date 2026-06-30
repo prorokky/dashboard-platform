@@ -14,13 +14,17 @@ import NavBar from '../widgets/NavBar.vue'
 
 <style>
 .app-layout {
+  height: 100vh;
   min-height: 100vh;
   display: flex;
+  overflow: hidden;
   background: var(--ui-color-bg-canvas);
 }
 
 .app-layout > :last-child {
   flex: 1;
+  height: 100vh;
   min-width: 0;
+  overflow: auto;
 }
 </style>
