@@ -1,5 +1,11 @@
 import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 import { defineConfig, devices } from '@playwright/test'
+
+const hostShellDir = fileURLToPath(new URL('.', import.meta.url))
+const dashboardDir = fileURLToPath(new URL('../dashboard', import.meta.url))
+const hostShellUrl = 'http://127.0.0.1:8000'
+const dashboardRemoteEntryUrl = 'http://127.0.0.1:8001/assets/remoteEntry.js'
 
 /**
  * Read environment variables from file.
@@ -34,7 +40,7 @@ export default defineConfig({
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.CI ? 'http://localhost:4173' : 'http://localhost:5173',
+    baseURL: hostShellUrl,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -97,14 +103,22 @@ export default defineConfig({
   // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    /**
-     * Use the dev server by default for faster feedback loop.
-     * Use the preview server on CI for more realistic testing.
-     * Playwright will re-use the local server if there is already a dev-server running.
-     */
-    command: process.env.CI ? 'npm run preview' : 'npm run dev',
-    port: process.env.CI ? 4173 : 5173,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      command: 'npm run dev',
+      cwd: dashboardDir,
+      name: 'dashboard remote',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120 * 1000,
+      url: dashboardRemoteEntryUrl,
+    },
+    {
+      command: 'npm run dev',
+      cwd: hostShellDir,
+      name: 'host shell',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120 * 1000,
+      url: hostShellUrl,
+    },
+  ],
 })
