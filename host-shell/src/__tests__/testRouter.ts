@@ -17,6 +17,11 @@ export const createTestRouter = async (initialPath = '/') => {
       },
       {
         component: RouteStub,
+        name: 'cases',
+        path: '/cases',
+      },
+      {
+        component: RouteStub,
         name: 'dashboard',
         path: '/dashboard',
       },

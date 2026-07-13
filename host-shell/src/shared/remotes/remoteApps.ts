@@ -14,4 +14,11 @@ export const remoteApps: RemoteApp[] = [
     showHostNavbar: true,
     title: 'Dashboard',
   },
+  {
+    id: 'cases',
+    path: '/cases',
+    remoteEntry: 'http://localhost:8002/assets/remoteEntry.js',
+    showHostNavbar: true,
+    title: 'Cases',
+  },
 ]

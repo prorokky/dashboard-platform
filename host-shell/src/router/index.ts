@@ -1,12 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/home/HomePage.vue'
-import { defineAsyncComponent } from 'vue'
 import { remoteApps } from '../shared/remotes/remoteApps.ts'
 
-const Dashboard = defineAsyncComponent(() => import('dashboard/Dashboard'))
-
 const remoteComponents = {
-  dashboard: Dashboard,
+  cases: () => import('cases/Cases'),
+  dashboard: () => import('dashboard/Dashboard'),
 }
 
 const remoteRoutes = remoteApps.map((app) => ({

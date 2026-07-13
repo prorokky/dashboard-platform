@@ -17,6 +17,7 @@ export default defineConfig({
       },
       remotes: {
         dashboard: 'http://localhost:8001/assets/remoteEntry.js',
+        cases: 'http://localhost:8002/assets/remoteEntry.js',
       },
       shared: ['vue', 'vue-router'],
     }),
