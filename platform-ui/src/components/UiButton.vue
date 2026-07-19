@@ -154,6 +154,9 @@ const isDisabled = computed(() => props.disabled || props.loading)
 }
 
 .ui-button__label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   line-height: var(--ui-line-height-tight);
 }
 
