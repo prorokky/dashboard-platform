@@ -4,8 +4,10 @@ import { defineConfig, devices } from '@playwright/test'
 
 const hostShellDir = fileURLToPath(new URL('.', import.meta.url))
 const dashboardDir = fileURLToPath(new URL('../dashboard', import.meta.url))
+const casesDir = fileURLToPath(new URL('../cases', import.meta.url))
 const hostShellUrl = 'http://127.0.0.1:8000'
 const dashboardRemoteEntryUrl = 'http://127.0.0.1:8001/assets/remoteEntry.js'
+const casesRemoteEntryUrl = 'http://127.0.0.1:8002/assets/remoteEntry.js'
 
 /**
  * Read environment variables from file.
@@ -111,6 +113,14 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       timeout: 120 * 1000,
       url: dashboardRemoteEntryUrl,
+    },
+    {
+      command: 'npm run dev',
+      cwd: casesDir,
+      name: 'cases remote',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120 * 1000,
+      url: casesRemoteEntryUrl,
     },
     {
       command: 'npm run dev',
