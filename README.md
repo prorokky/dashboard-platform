@@ -1,75 +1,202 @@
-# dashboard-platform
+# Dashboard Platform
 
-## Recommended Browser Setup
+Dashboard Platform — frontend-платформа на Vue 3 с микрофронтенд-архитектурой.
+Host-приложение объединяет два независимых модуля через Module Federation:
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- **Dashboard** — обзор метаданных репозитория `prorokky/dashboard-platform`;
+- **Cases** — единое рабочее пространство для коммитов, issues, pull requests,
+  событий репозитория и запусков GitHub Actions.
 
-## Type Support for `.vue` Imports in TS
+Оба модуля используют публичный GitHub REST API и общую библиотеку компонентов
+`platform-ui`.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Возможности
 
-## Customize configuration
+### Dashboard
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- сводка по репозиторию: ветка по умолчанию, активность, открытые задачи, stars,
+  forks и watchers;
+- профиль репозитория и основные даты;
+- сигналы, требующие внимания: архивный или отключённый репозиторий, открытые
+  issues/PR, отсутствие лицензии и topics;
+- состояния загрузки, ошибки, повторный запрос и сохранение последних успешно
+  загруженных данных при ошибке обновления.
 
-## Project Setup
+### Cases
 
-### Go to project directory
+- объединение данных из commits, issues/PR, repository events и GitHub Actions;
+- поиск и фильтрация по типу, статусу, автору и диапазону дат;
+- сортировка, пагинация и панель подробностей выбранного сигнала;
+- сводные метрики по открытой работе, сбоям workflow и участникам;
+- экспорт текущей отфильтрованной выборки в CSV;
+- частичная деградация: интерфейс продолжает работать, если доступна хотя бы одна
+  из GitHub-точек данных.
+
+## Архитектура
+
+| Каталог | Роль | Адрес | Federation-контракт |
+| --- | --- | --- | --- |
+| `host-shell/` | Host, маршрутизация, навигация и error boundary | `http://127.0.0.1:8000` | подключает `dashboard/Dashboard` и `cases/Cases`, публикует `./NavBar` |
+| `dashboard/` | Remote с обзором репозитория | `http://127.0.0.1:8001` | публикует `./Dashboard` |
+| `cases/` | Remote с GitHub Cases | `http://127.0.0.1:8002` | публикует `./Cases` |
+| `platform-ui/` | Общие компоненты и CSS-токены | — | подключается как локальная npm-зависимость |
+
+Маршруты платформы:
+
+- `/` — стартовая страница;
+- `/dashboard` — Dashboard remote;
+- `/cases` — Cases remote;
+- неизвестные маршруты перенаправляются на `/`.
+
+`host-shell` загружает `remoteEntry.js` модулей во время выполнения. Vue и
+Vue Router объявлены shared-зависимостями. Каждый remote при этом можно открыть
+отдельно на его собственном порту.
+
+## Технологии
+
+- Vue 3 и TypeScript;
+- Vite;
+- `@originjs/vite-plugin-federation`;
+- Vue Router;
+- Pinia;
+- Axios и Fetch API;
+- Vitest и Vue Test Utils;
+- Playwright;
+- ESLint, Oxlint и Prettier.
+
+## Требования
+
+- Node.js `^20.19.0` или `>=22.12.0`;
+- npm;
+- доступ к `api.github.com` для живых данных.
+
+В репозитории нет корневого `package.json` и npm workspaces. У каждого пакета
+собственные `package.json`, `package-lock.json` и `node_modules`.
+
+## Установка
+
+Из корня репозитория установите зависимости всех пакетов:
 
 ```sh
-cd <microfrontend-name>
+for package in platform-ui dashboard cases host-shell; do
+  (cd "$package" && npm ci)
+done
 ```
 
-### Install dependencies
+`platform-ui` подключён в приложениях через `file:../platform-ui`, поэтому изменения
+в его исходниках сразу доступны локальным пакетам.
+
+Для первого запуска e2e-тестов установите браузеры Playwright:
 
 ```sh
-npm install
+cd host-shell
+npx playwright install
 ```
 
-### Compile and Hot-Reload for development
+## Локальный запуск
+
+Для работы всей платформы нужны три процесса. Сначала запустите remote-приложения,
+затем host.
+
+Терминал 1:
 
 ```sh
+cd dashboard
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Терминал 2:
 
 ```sh
-npm run build
+cd cases
+npm run dev
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+Терминал 3:
 
 ```sh
-npm run test:unit
+cd host-shell
+npm run dev
 ```
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+После запуска откройте `http://127.0.0.1:8000`.
+
+Remote-приложения используют собранный Federation bundle и `vite preview`:
+
+- `dashboard`: перед стартом создаёт development build, затем параллельно следит
+  за изменениями и обслуживает `dist`;
+- `cases`: перед стартом создаёт development build и обслуживает `dist` без
+  автоматической пересборки.
+
+Чтобы разрабатывать `cases` с пересборкой, запустите дополнительный процесс:
 
 ```sh
-# Install browsers for the first run
-npx playwright install
+cd cases
+npm run build:watch
+```
 
-# When testing on CI, must build the project first
-npm run build
+Перед открытием federated-маршрута убедитесь, что соответствующий remote запущен
+и его `remoteEntry.js` доступен.
 
-# Runs the end-to-end tests
+## Проверки
+
+### Сборка и type-check
+
+```sh
+(cd dashboard && npm run build)
+(cd cases && npm run build)
+(cd host-shell && npm run build)
+```
+
+Сборка каждого приложения включает `vue-tsc` и Vite build. Результат создаётся в
+соответствующем каталоге `dist/`.
+
+### Unit-тесты
+
+```sh
+(cd host-shell && npm run test:unit -- --run)
+(cd cases && npm run test:unit -- --run)
+```
+
+Unit-тесты покрывают host-компоненты и маршрутизацию, нормализацию GitHub-ответов,
+а также фильтрацию Cases.
+
+### End-to-end
+
+Полный интеграционный набор запускается из `host-shell`:
+
+```sh
+cd host-shell
 npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+Playwright автоматически поднимет оба remote-приложения и host. GitHub API в
+тестах перехватывается, поэтому результат не зависит от сети и текущего состояния
+репозитория.
+
+Отдельные remote-приложения также имеют собственные e2e-наборы:
+
+```sh
+(cd dashboard && npm run test:e2e)
+(cd cases && npm run test:e2e)
+```
+
+По умолчанию e2e-тесты выполняются в Chromium, Firefox и WebKit. Для быстрого
+локального прогона только в Chromium:
+
+```sh
+cd host-shell
+npm run test:e2e -- --project=chromium
+```
+
+### Линтинг и форматирование
+
+Команды выполняются отдельно в нужном пакете:
 
 ```sh
 npm run lint
+npm run format
 ```
+
+Обе команды изменяют файлы: линтеры запускаются с автоисправлением, а Prettier
+перезаписывает форматируемые исходники.
