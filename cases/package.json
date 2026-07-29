@@ -9,6 +9,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
+    "test:e2e": "playwright test",
     "build-only": "vite build",
     "build:watch": "vite build --watch --mode development",
     "type-check": "vue-tsc --build tsconfig.app.json",
